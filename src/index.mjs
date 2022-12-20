@@ -11,10 +11,12 @@ import postgres from 'postgres';
 import queriesFactory from './queries.mjs';
 import latest from './cmd/latest.mjs';
 import up from './cmd/up.mjs';
+import down from './cmd/down.mjs';
 
 const commands = {
   latest,
   up,
+  down,
 };
 
 /**
@@ -35,8 +37,7 @@ const getAllMigrationsFromDir = async (dir) => {
 const main = async ({ command = 'latest', schema = 'public' }) => {
   const cmd = commands[command];
   if (!cmd) {
-    console.log(`Command ${command} not found.`);
-    process.exit(1);
+    throw new Error(`Command ${command} not found.`);
   }
   const sql = postgres({
     host: '127.0.0.1',

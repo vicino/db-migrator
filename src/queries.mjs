@@ -76,6 +76,10 @@ export default ({ schema, sql }) => {
     return completedMigrations;
   };
 
+  const deleteMigration = async (id) => {
+    await sql`delete from ${sql(schema)}.migrations where id = ${id}`;
+  };
+
   return {
     createMigrationsTable,
     createMigrationsLockTable,
@@ -88,5 +92,6 @@ export default ({ schema, sql }) => {
     releaseLock,
     insertMigrations,
     getCompletedMigrations,
+    deleteMigration,
   };
 };
